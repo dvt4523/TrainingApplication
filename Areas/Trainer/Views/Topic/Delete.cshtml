@@ -1,0 +1,89 @@
+﻿@model TrainingApplication.Models.ViewModels.TopicViewModel
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info border backgroundWhiteBorder">Delete Topic</h2>
+<br />
+<form method="post">
+    <div class="backgroundWhiteBorder row">
+        <div class="col-8">
+            <input type="hidden" asp-for="Topic.Id" />
+            <fieldset disabled>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.Name" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Topic.Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.Description" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        @Html.TextAreaFor(m => m.Topic.Description)
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.Duration" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Topic.Duration" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.CategoryId" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Topic.Category.Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.CourseId" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Topic.Course.Name" class="form-control" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Topic.Level" class="custom-label"></label>
+                    </div>
+                    <div class="col-8">
+                        <select asp-for="Topic.Level" asp-items="Html.GetEnumSelectList<Topic.ELevel>()" class="form-control"></select>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3">
+            <img src="@Model.Topic.Image" width="100%" style="border-radius:5px;border:1px solid #bbb9b9;" />
+        </div>
+        <div class="col-8">
+            <div class="col-8 offset-4">
+                <partial name="_DeleteAndBackToListButton" model="Model.Topic.Id" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+            tinymce.init({
+                selector: 'textarea',
+                plugins: "lists",
+                toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist",
+                menubar: 'file edit format',
+                readonly: 1
+            });</script>
+    <script>tinymce.init({ selector: 'textarea' });</script>
+
+}

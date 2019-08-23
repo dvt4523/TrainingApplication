@@ -1,0 +1,135 @@
+﻿@using TrainingApplication.Ultility
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Training Application</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <script src="https://kit.fontawesome.com/ae0dd326fa.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://kit.fontawesome.com/ae0dd326fa.js"></script>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute"
+              crossorigin="anonymous"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
+    </environment>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="search-background">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="Trainee" asp-controller="Home" asp-action="Index">Training&nbsp;Application</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+
+                        @if (User.IsInRole(SD.AdminUser))
+                        {
+
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Category" asp-area="Admin">Category</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Course" asp-area="Admin">Course</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Topic" asp-area="Admin">Topic</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="User" asp-area="Admin">Users</a>
+
+                                </div>
+                            </li>
+
+                        }
+
+                        @if (User.IsInRole(SD.StaffUser))
+                        {
+
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Category" asp-area="Staff">Category</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Course" asp-area="Staff">Course</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Topic" asp-area="Staff">Topic</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="User" asp-area="Staff">Users</a>
+
+                                </div>
+                            </li>
+
+                        }
+
+                        @if (User.IsInRole(SD.TrainerUser))
+                        {
+
+                            <li class="nav-item dropdown text-white-50">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Category" asp-area="Trainer">Category</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Course" asp-area="Trainer">Course</a>
+                                    <a class="dropdown-item" asp-action="Index" asp-controller="Topic" asp-area="Trainer">Topic</a>
+
+                                </div>
+                            </li>
+
+                        }
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="Trainee" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top pl-3 footer text-white-50" style="background-color: #343a40">
+        <div class="container">
+            &copy; 2019 - Training Application
+        </div>
+    </footer>
+
+    <environment include="Development">
+        <script src="https://cdn.tiny.cloud/1/mr3fxc3em0x3fqj7q3y18jz0scfp3d5d633igyulmpr6vd1u/tinymce/5/tinymce.min.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://cdn.tiny.cloud/1/mr3fxc3em0x3fqj7q3y18jz0scfp3d5d633igyulmpr6vd1u/tinymce/5/tinymce.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o">
+        </script>
+    </environment>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

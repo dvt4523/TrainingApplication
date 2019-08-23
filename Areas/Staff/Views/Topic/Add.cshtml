@@ -1,0 +1,119 @@
+﻿@model TrainingApplication.Models.ViewModels.TopicViewModel
+@using TrainingApplication.Extensions
+@{
+    ViewData["Title"] = "Add";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info border backgroundWhite">Add Topic</h2>
+<br />
+
+<form method="post" asp-action="Add" enctype="multipart/form-data">
+    <div class="border backgroundWhite">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.Name" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Topic.Name" class="form-control" />
+            </div>
+            <span asp-validation-for="Topic.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.Description" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                @Html.TextAreaFor(m => m.Topic.Description)
+            </div>
+            <span asp-validation-for="Topic.Description" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.Duration" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input asp-for="Topic.Duration" class="form-control" />
+            </div>
+            <span asp-validation-for="Topic.Duration" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.Image" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <input type="file" name="files" multiple class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.CategoryId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="@Model.Topic.CategoryId" id="CategoryId" asp-items="Model.Category.ToSelectListItem(Model.Topic.CategoryId)" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.CourseId" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="Topic.CourseId" asp-items="Model.CourseList.ToSelectListItem(Model.Topic.CourseId)" class="form-control"></select>
+                @*<select asp-for="@Model.Topic.CourseId" name="CourseId" id="CourseId" asp-items="@(new SelectList(string.Empty,"Id","Name"))" class="form-control"></select>*@
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-2">
+                <label asp-for="Topic.Level" class="col-form-label"></label>
+            </div>
+            <div class="col-5">
+                <select asp-for="Topic.Level" asp-items="Html.GetEnumSelectList<Topic.ELevel>()" class="form-control"></select>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <partial name="_AddAndBackToListButton" />
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+    <script>
+        tinymce.init({
+            selector: 'textarea',
+            plugins: "lists",
+            menubar: 'file edit format'
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            getCourse();
+            $('#CategoryId').change(function () {
+                getCourse();
+            });
+        });
+
+        function getCourse() {
+            var url = '@Url.Content("~/")' + "Staff/Topic/GetCourse";
+            var ddlsource = '#CategoryId';
+            $.getJSON(url, { id: $(ddlsource).val() }, function (data) {
+                var items = '';
+                $('#CourseId').empty();
+                $.each(data, function (i, course) {
+                    items += "<option value='" + course.value + "'>" + course.text + "</option>";
+                });
+                $('#CourseId').html(items);
+            })
+        }
+    </script>
+
+
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
